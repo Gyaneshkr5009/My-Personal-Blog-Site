@@ -119,54 +119,60 @@ const Navbar = () => {
 
                 {/* Mobile Menu */}
                 {isMenuOpen && (
-                    <div className="md:hidden bg-white shadow-lg mt-4">
+                    <div className="md:hidden bg-cyan-200/100 shadow-lg mt-4">
                         <nav aria-label="Mobile Navigation">
                             <ul className="flex flex-col space-y-4 px-6 py-4">
                                 <li>
                                     <a
                                         href="https://leetcode.com/u/gyaneshkr/"
-                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out"
+                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out flex gap-4"
                                     >
+                                        <img src={leetcode} alt="Leetcode" className="w-6 h-6" />
                                         Leetcode
                                     </a>
                                 </li>
                                 <li>
                                     <a
                                         href="https://github.com/Gyaneshkr5009"
-                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out"
+                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out flex gap-4"
                                     >
+                                        <img src={github} alt="Github" className="w-6 h-6" />
                                         Github
                                     </a>
                                 </li>
                                 <li>
                                     <a
                                         href="https://www.linkedin.com/in/gyanesh-kumar-a73114213/"
-                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out"
+                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out flex gap-4"
                                     >
+                                        <img src={linkedin} alt="LinkedIn" className="w-6 h-6" />
                                         LinkedIn
                                     </a>
                                 </li>
                                 <li>
                                     <a
                                         href="https://www.naukri.com/code360/profile/gyaneshkr2002"
-                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out"
+                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out flex gap-4"
                                     >
+                                        <img src={code360} alt="Code360" className="w-6 h-6" />
                                         Code360
                                     </a>
                                 </li>
                                 <li>
                                     <a
                                         href="https://codeforces.com/profile/Gyaneshkr"
-                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out"
+                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out flex gap-4"
                                     >
+                                        <img src={codeforces} alt="Codeforces" className="w-6 h-6" />
                                         Codeforces
                                     </a>
                                 </li>
                                 <li>
                                     <a
                                         href="https://gyaneshkr5009.github.io/portfolio_v2/"
-                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out"
+                                        className="text-gray-800 hover:text-indigo-600 transition duration-200 ease-in-out flex gap-4"
                                     >
+                                        <img src={portfolio} alt="portfolio" className='w-6 h-6'/>
                                         Portfolio
                                     </a>
                                 </li>

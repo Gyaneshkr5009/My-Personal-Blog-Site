@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BlogCard = ({ blog, onEdit }) => {
+const BlogCard = ({ blog, onEdit  , onDelete}) => {
   if (!blog) return null
 
   return (
@@ -21,9 +21,15 @@ const BlogCard = ({ blog, onEdit }) => {
       <div className="mt-4 flex justify-end">
         <button
           onClick={onEdit}
-          className="px-4 py-2 text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 rounded-lg active:scale-95 transition-transform"
+          className="px-4 py-2 text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 rounded-lg active:scale-95 transition-transform mr-3"
         >
           Edit Post
+        </button>
+        <button
+          onClick={onDelete}
+          className="px-4 py-2 text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700 rounded-lg active:scale-95 transition-transform"
+        >
+          Delete
         </button>
       </div>
     </div>

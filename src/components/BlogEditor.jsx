@@ -9,8 +9,8 @@ const BlogEditor = ({ onSave, defaultData, isEditing }) => {
       setTitle(defaultData.title)
       setContent(defaultData.content)
     } else {
-      setTitle('')
-      setContent('')
+      setTitle('');
+      setContent('');
     }
   }, [defaultData])
 

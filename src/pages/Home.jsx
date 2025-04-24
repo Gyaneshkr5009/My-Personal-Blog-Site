@@ -1,24 +1,91 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import BlogCard from '../components/BlogCard';
 import BlogEditor from '../components/BlogEditor';
 import { Menu } from 'lucide-react';
+import supabase from '../supabaseClient';
 
 const Home = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [blogs, setBlogs] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
 
-  const handleAddBlog = (newBlog) => {
-    setBlogs(prev => [...prev, newBlog]);
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  const fetchBlogs = async () => {
+    const userId = import.meta.env.VITE_SUPABASE_USER_ID;
+    const { data, error } = await supabase
+      .from('blogs')
+      .select('*')
+      .eq('user_id', userId)
+      .order('date', { ascending: false });
+  
+    if (error) {
+      console.error('Error fetching blogs:', error);
+    } else {
+      setBlogs(data);
+    }
   };
 
-  const handleUpdate = (updatedBlog, index) => {
-    const updatedBlogs = [...blogs];
-    updatedBlogs[index] = updatedBlog;
-    setBlogs(updatedBlogs);
-    setEditingIndex(null);
+  const handleAddBlog = async (newBlog) => {
+    const userId = import.meta.env.VITE_SUPABASE_USER_ID;
+  
+    const { data, error } = await supabase
+      .from('blogs')
+      .insert([{ ...newBlog, user_id: userId }])
+      .select();
+  
+    if (error) {
+      console.error('Error adding blog:', error);
+    } else {
+      setBlogs((prev) => [...prev, data[0]]);
+    }
   };
+  
+
+  const handleUpdate = async (updatedBlog, index) => {
+    const blogToUpdate = blogs[index];
+    const userId = import.meta.env.VITE_SUPABASE_USER_ID;
+    const { data, error } = await supabase
+      .from('blogs')
+      .update({ title: updatedBlog.title, content: updatedBlog.content })
+      .eq('id', blogToUpdate.id)
+      .eq('user_id', userId) 
+      .select();
+    if(error){
+      console.error('Error updating blog:', error);
+    }
+    else{
+      const newBlogs = [...blogs];
+      newBlogs[index] = data[0];
+      setBlogs(newBlogs);
+      setEditingIndex(null);
+    }
+  };
+
+  const handleDelete = async (index) => {
+    try {
+      const blogToDelete = blogs[index];
+      const userId = import.meta.env.VITE_SUPABASE_USER_ID;
+  
+      const { error } = await supabase
+        .from('blogs')
+        .delete()
+        .eq('id', blogToDelete.id)
+        .eq('user_id', userId); // extra safety for RLS
+  
+      if (error) {
+        console.error('Error deleting blog:', error);
+      } else {
+        setBlogs((prev) => prev.filter((_, i) => i !== index));
+      }
+    } catch (error) {
+      console.error('Error deleting blog:', error);
+    }
+  };
+  
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
@@ -47,6 +114,7 @@ const Home = () => {
               key={index}
               blog={blog}
               onEdit={() => setEditingIndex(index)}
+              onDelete={() => handleDelete(index)}
             />
           ))}
         </div>
