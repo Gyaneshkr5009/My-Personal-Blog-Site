@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import BlogCard from '../components/BlogCard';
+import BlogEditor from '../components/BlogEditor';
 import { Menu } from 'lucide-react';
 
 const Home = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [blogs, setBlogs] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
+
+  const handleAddBlog = (newBlog) => {
+    setBlogs(prev => [...prev, newBlog]);
+  };
+
+  const handleUpdate = (updatedBlog, index) => {
+    const updatedBlogs = [...blogs];
+    updatedBlogs[index] = updatedBlog;
+    setBlogs(updatedBlogs);
+    setEditingIndex(null);
+  };
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
@@ -26,8 +40,21 @@ const Home = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-4">
-        <BlogCard />
+      <div className="flex-1 p-3 space-y-4">
+        <div className="space-y-2">
+          {blogs.map((blog, index) => (
+            <BlogCard
+              key={index}
+              blog={blog}
+              onEdit={() => setEditingIndex(index)}
+            />
+          ))}
+        </div>
+        <BlogEditor
+          onSave={editingIndex !== null ? (data) => handleUpdate(data, editingIndex) : handleAddBlog}
+          defaultData={editingIndex !== null ? blogs[editingIndex] : null}
+          isEditing={editingIndex !== null}
+        />
       </div>
     </div>
   );
